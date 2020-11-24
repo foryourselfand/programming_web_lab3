@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC
+        "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+        xmlns:p="http://primefaces.org/ui"
+
+>
+<h:head>
+    <title>MainPage</title>
+    <link rel="stylesheet" href="../resources/styles/graphic.css"/>
+    <link rel="stylesheet" href="../resources/styles/style.css"/>
+    <script type="text/javascript" src="../resources/scripts/jquery.js"></script>
+</h:head>
+
+<h:body  styleClass="h-body">
+
+    <div class="page">
+
+        <div class="graphic">
+            <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+                <line x1="0" y1="150" x2="300" y2="150" stroke="#000720"></line>
+                <line x1="150" y1="0" x2="150" y2="300" stroke="#000720"></line>
+                <line x1="270" y1="148" x2="270" y2="152" stroke="#000720"></line>
+                <text x="265" y="140">R</text>
+                <line x1="210" y1="148" x2="210" y2="152" stroke="#000720"></line>
+                <text x="200" y="140">R/2</text>
+                <line x1="90" y1="148" x2="90" y2="152" stroke="#000720"></line>
+                <text x="75" y="140">-R/2</text>
+                <line x1="30" y1="148" x2="30" y2="152" stroke="#000720"></line>
+                <text x="20" y="140">-R</text>
+                <line x1="148" y1="30" x2="152" y2="30" stroke="#000720"></line>
+                <text x="156" y="35">R</text>
+                <line x1="148" y1="90" x2="152" y2="90" stroke="#000720"></line>
+                <text x="156" y="95">R/2</text>
+                <line x1="148" y1="210" x2="152" y2="210" stroke="#000720"></line>
+                <text x="156" y="215">-R/2</text>
+                <line x1="148" y1="270" x2="152" y2="270" stroke="#000720"></line>
+                <text x="156" y="275">-R</text>
+                <polygon points="300,150 295,155 295, 145" fill="#000720" stroke="#000720"></polygon>
+                <polygon points="150,0 145,5 155,5" fill="#000720" stroke="#000720"></polygon>
+                <!--RECTANGLE-->
+                <rect class="rectangle" x="150" y="90" width="120" height="60"></rect>
+                <!--TRIANGLE-->
+                <polygon class="triangle" points="150,150 30,150 150,90"></polygon>
+                <!--QUARTER-->
+                <path class="quarter"
+                      d="M 150 270 A 125 125, 90, 0, 0, 270 150 L 150 150 Z"></path>
+                <!--DOT-->
+                <circle id="pointer" r="5" cx="150" cy="150" fill-opacity="0.7" fill="white" stroke="firebrick"
+                        visibility="hidden"></circle>
+            </svg>
+        </div>
+
+        <div class="starter">
+            <h:link outcome="starter">Go to starter page</h:link>
+        </div>
+
+        <div class="card">
+
+            <div class="form">
+                <h:form id="form">
+                    <div class="x-value">
+                        <p>Выберите X:</p>
+                        <h:selectOneRadio id="x"
+                                          value="#{pointsBean.pointField.x}"
+                                          required="true"
+                                          requiredMessage="X is required">
+                            <f:selectItem itemValue="-5" itemLabel="-5"/>
+                            <f:selectItem itemValue="-4" itemLabel="-4"/>
+                            <f:selectItem itemValue="-3" itemLabel="-3"/>
+                            <f:selectItem itemValue="-2" itemLabel="-2"/>
+                            <f:selectItem itemValue="-1" itemLabel="-1"/>
+                            <f:selectItem itemValue="0" itemLabel="0"/>
+                            <f:selectItem itemValue="1" itemLabel="1"/>
+                            <f:selectItem itemValue="2" itemLabel="2"/>
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                        </h:selectOneRadio>
+                        <h:message for="x" style="color: red"/>
+
+                    </div>
+                    <div class="y-value">
+                        <p>Выберите Y:</p>
+                        <h:inputText styleClass="my-input" id="y" name="y" value="#{pointsBean.pointField.y}" a:placeholder="Value in [-3..5]"
+                                     converterMessage="Y must be number..."
+                                     validatorMessage="Y must be number between -3 and 5 inclusive"
+                                     required="true" requiredMessage="Y is required" maxlength="6">
+                            <f:validateDoubleRange minimum="-3" maximum="5"/>
+                        </h:inputText>
+                        <h:message for="y" style="color: red"/>
+                        <div class="invalid-y d-none h5" style="color: red"></div>
+                    </div>
+
+                    <!--        <div class="r-value">-->
+                    <!--            <p>Выберите R:</p>-->
+                    <!--            <h:outputText id="sliderValue" value="1"/>-->
+                    <!--        </div>-->
+
+                    <div class="r-value">
+                        <p>Выберите R:</p>
+                        <div class="slider-wrapper">
+                            <div class="text-center">
+                                <p:spinner id="R_field"
+                                           name="r"
+                                           value="#{pointsBean.pointField.r}"
+                                           required="true"
+                                           min="2"
+                                           max="5"
+                                           type="number"
+                                           stepFactor="0.1"/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <h:commandButton styleClass="my-button" type="submit" value="Submit" action="#{pointsBean.submitFieldPoints}">
+                        </h:commandButton>
+                    </div>
+                </h:form>
+
+                <h:form>
+                    <h:commandButton styleClass="my-button" type="submit" value="Clear All" action="#{pointsBean.clear}">
+                    </h:commandButton>
+                </h:form>
+            </div>
+
+            <div class="hiddenForm">
+                <h:form style="display: none">
+                    <h:inputText styleClass="x-hidden" value="#{pointsBean.pointGraphic.x}"/>
+                    <h:inputText styleClass="y-hidden" value="#{pointsBean.pointGraphic.y}"/>
+                    <h:inputText styleClass="r-hidden" value="#{pointsBean.pointGraphic.r}"/>
+                    <h:commandButton
+                            type="submit"
+                            styleClass="hidden-submit-btn"
+                            action="#{pointsBean.submitGraphicPoints}"
+                    />
+                </h:form>
+            </div>
+        </div>
+
+        <div class="table">
+            <div>Results</div>
+            <h:dataTable id="result-table" value="#{pointsBean.pointsCollection}" var="point">
+                <f:event type="preRenderView" listener="#{pointsBean.uploadPoints}"/>
+                <h:column>
+                    <f:facet name="header">X</f:facet>
+                    ${point.x}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Y</f:facet>
+                    ${point.y}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">R</f:facet>
+                    ${point.r}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Result</f:facet>
+                    ${point.result ? "Y" : "N"}
+                </h:column>
+            </h:dataTable>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../resources/scripts/setPointer.js"></script>
+</h:body>
+
+</html>
